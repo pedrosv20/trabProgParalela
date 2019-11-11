@@ -7,6 +7,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
+import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -16,27 +17,32 @@ import java.util.logging.Logger;
  */
 public class ThreadEnviar extends Thread {
 
-    private String nome;
+    private String user;
     private Socket s;
     private HashMap<String, ArrayList<String>> listaUsuario;
+    private Semaphore mutex;
 
-    public ThreadEnviar(Socket s, HashMap<String, ArrayList<String>> listaUsuario) {
+    public ThreadEnviar(String user, Socket s, HashMap<String, ArrayList<String>> listaUsuario, Semaphore mutex) {
+        this.mutex = mutex;
+        this.user = user;
         this.s = s;
         this.listaUsuario = listaUsuario;
     }
 
     @Override
     public void run() {
-        try {
-            Scanner meu = new Scanner(System.in);
+        while (true) {
+            
+            try {
+                mutex.acquire();
+                Scanner meu = new Scanner(System.in);
 
-            DataOutputStream saida= new DataOutputStream( s.getOutputStream());
+                DataOutputStream saida = new DataOutputStream(s.getOutputStream());
 
-            System.out.println("Qual seu nome");
-            String user = meu.nextLine();
-            if (listaUsuario.containsKey(user)) {
-                System.out.println("Usuario Autenticado \n");
-                while (true) {
+                if (listaUsuario.containsKey(user)) {
+                    System.out.println("Usuario Autenticado \n");
+
+                    
                     System.out.println("Enviar diz, RECEBI ESSA" + listaUsuario.keySet());
                     System.out.println("Digite o destinatario da mensagem");
                     String nomeRemetente = meu.nextLine();
@@ -45,11 +51,14 @@ public class ThreadEnviar extends Thread {
 
                     saida.writeUTF(nomeRemetente);
                     saida.writeUTF(mensagem);
+
                 }
-            }
-        }
-        catch (Exception e) {
-            System.out.println("Ai brow mandou mal el" + e);
+                mutex.release();
+                Thread.sleep(1);
+
+            } catch (Exception e) {
+                System.out.println("Ai brow mandou mal el" + e);
+            } 
         }
     }
 }

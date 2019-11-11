@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -36,11 +37,15 @@ public class Cliente {
             
             ObjectInputStream ois = new ObjectInputStream(s.getInputStream());
             HashMap<String, ArrayList<String>> listaUsuario = (HashMap<String, ArrayList<String>>) ois.readObject();
-            
-            ThreadEnviar envia = new ThreadEnviar(s, listaUsuario);
-            ThreadReceber recebe = new ThreadReceber(s, listaUsuario);
+            System.out.println("Qual seu nome");
+            Scanner meu = new Scanner(System.in);
+            String user = meu.nextLine();
+            Semaphore mutex = new Semaphore(1);
+            ThreadEnviar envia = new ThreadEnviar(user, s, listaUsuario, mutex);
+            System.out.println("aaaaaaaaaaaaaa");
+            ThreadReceber recebe = new ThreadReceber(user, s, mutex);
             envia.start();
-//            recebe.start();
+            recebe.start();
           /*
             DataInputStream entrada = new DataInputStream(s.getInputStream());
 
