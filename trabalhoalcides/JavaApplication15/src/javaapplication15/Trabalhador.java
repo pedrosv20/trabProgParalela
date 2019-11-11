@@ -41,11 +41,15 @@ public class Trabalhador extends Thread {
                         
                         System.out.println("CC");
                         
-			String nomerecebe = entrada.readUTF();
+			String remetente = entrada.readUTF();
+                        String mensagem = entrada.readUTF();
                         
-                        
-			System.out.println( "Recebidos: " + nomerecebe);
-                        
+                        System.out.println("remetente");
+			if (Servidor.usuario.keySet().contains(remetente)) {
+                            System.out.println("mamey");
+                            Servidor.usuario.get(remetente).add(mensagem);
+                        }
+                        System.out.println(Servidor.usuario);
                         
 			Thread.sleep( 5000 ); // dorme 5 segundos
                         

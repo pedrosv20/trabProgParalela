@@ -22,7 +22,7 @@ public class Servidor {
     /**
      * @param args
      */
-    public static Map<String, ArrayList<String[]>> usuario = new HashMap<String, ArrayList<String[]>>();
+    public static Map<String, ArrayList<String>> usuario = new HashMap<String, ArrayList<String>>();
     
     
     public static void main(String[] args) throws FileNotFoundException, IOException {

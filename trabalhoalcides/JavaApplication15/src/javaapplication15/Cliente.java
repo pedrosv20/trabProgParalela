@@ -34,7 +34,7 @@ public class Cliente {
             ThreadEnviar teste = new ThreadEnviar(s);
             ThreadReceber recebe = new ThreadReceber(s);
             teste.start();
-            recebe.start();
+//            recebe.start();
           /*
             DataInputStream entrada = new DataInputStream(s.getInputStream());
 
