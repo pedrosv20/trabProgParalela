@@ -3,20 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package trabalhoalcides;
+package javaapplication15;
 
 /**
  *
- * @author augusto.coelho
+ * @author pedrovargas
  */
-public class TrabalhoAlcides {
+public class JavaApplication15 {
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        System.out.println(Users.usuario);
     }
     
 }

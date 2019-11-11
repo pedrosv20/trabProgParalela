@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package trabalhoalcides;
+package javaapplication15;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;
@@ -27,7 +27,7 @@ public class Servidor {
     
     public static void main(String[] args) throws FileNotFoundException, IOException {
         // TODO Auto-generated method stub
-        FileReader arq = new FileReader("/Users/pedrovargas/Downloads/TrocaMensagensUsers-master/src/trabalhoalcides/Usuarios.txt");
+        FileReader arq = new FileReader("/Users/pedrovargas/Desktop/Usuarios.txt");
         BufferedReader lerArq = new BufferedReader(arq);
 
         String linha = lerArq.readLine();

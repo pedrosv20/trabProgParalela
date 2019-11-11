@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package trabalhoalcides;
+package javaapplication15;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -29,14 +29,14 @@ public class ThreadReceber extends Thread {
     public void run() {
         try {
 
-             Socket s = new Socket("127.0.0.1", 5000);
+            Socket s = new Socket("127.0.0.1", 5000);
             System.out.println("Cliente: conexao feita");
 
             
             DataInputStream entrada = new DataInputStream(s.getInputStream());
             
-            String a = entrada.readUTF();
-            System.out.println(a);
+//            String a = entrada.readUTF();
+            
 //            while (true) {
 //                if (Users.usuario.containsKey(name)) {
 //                    ArrayList<String[]> mensagens = Users.usuario.get(name);

@@ -3,12 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package trabalhoalcides;
+package javaapplication15;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -22,49 +23,46 @@ public class Trabalhador extends Thread {
 	{
 		this.t = t;
 	}
-	private byte[] convertToBytes(Object object) throws IOException {
-            try (ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                 ObjectOutput out = new ObjectOutputStream(bos)) {
-                out.writeObject(object);
-                return bos.toByteArray();
-            } 
-        }
 	public void run()
 	{
 		try
 		{
-                    
+                    System.out.println("AA");
                         ObjectOutputStream oos = new ObjectOutputStream(t.getOutputStream());
                         oos.flush();
                         Thread.sleep(1000);
                         oos.writeObject(Servidor.usuario);
-                        
+                        System.out.println("BB");
 			DataInputStream entrada = new DataInputStream( t.getInputStream());
+//                        System.out.println(entrada.readObject());
+                        
 			DataOutputStream saida = new DataOutputStream( t.getOutputStream());
                         
                         
+                        System.out.println("CC");
+                        
 			String nomerecebe = entrada.readUTF();
-                        String mensagem = entrada.readUTF();
-                        String nome = entrada.readUTF();
-			System.out.println( "Recebidos: " + nomerecebe + "Mensagens:"+ mensagem);
+                        
+                        
+			System.out.println( "Recebidos: " + nomerecebe);
                         
                         
 			Thread.sleep( 5000 ); // dorme 5 segundos
                         
                         
-                        saida.writeBytes(Servidor.usuario.toString());
-                        
-			if (Users.usuario.containsKey(nomerecebe)) {
-                            
-                            String[] envioMen = new String[2];
-                            envioMen[0] = nome;
-                            envioMen[1] = mensagem;
-                            Users.usuario.get(nomerecebe).add(envioMen);
-                            
-                        } else {
-                            System.err.println("Chave não existe");
-                        }
-			
+//                        saida.writeBytes(Servidor.usuario.toString());
+//                        
+//			if (Users.usuario.containsKey(nomerecebe)) {
+//                            
+//                            String[] envioMen = new String[2];
+//                            envioMen[0] = nome;
+//                            envioMen[1] = mensagem;
+//                            Users.usuario.get(nomerecebe).add(envioMen);
+//                            
+//                        } else {
+//                            System.err.println("Chave não existe");
+//                        }
+//			
 			
 			t.close();
 			System.out.println( "Servidor: conexao encerrada");
