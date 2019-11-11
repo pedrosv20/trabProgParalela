@@ -43,31 +43,24 @@ public class Trabalhador extends Thread {
                 System.out.println("CC");
 
                 String destinatario = entrada.readUTF();
-                String mensagem = entrada.readUTF();
+                System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"+destinatario);
+                if (destinatario.charAt(0) == '!') {
+                    String nome = destinatario.substring(1);
+                    oos.flush();
+                    System.out.println(Servidor.usuario.get(nome).getClass().getName());
+                    oos.writeObject(Servidor.usuario.get(nome));
 
-                System.out.println("destinatario");
-                if (Servidor.usuario.keySet().contains(destinatario)) {
-                    System.out.println("Trabalhador diz: Destinatario confirmado");
-                    Servidor.usuario.get(destinatario).add(mensagem);
+                } else {
+                    String mensagem = entrada.readUTF();
+
+                    System.out.println("destinatario");
+                    if (Servidor.usuario.keySet().contains(destinatario)) {
+                        System.out.println("Trabalhador diz: Destinatario confirmado");
+                        Servidor.usuario.get(destinatario).add(mensagem);
+                    }
+                    System.out.println(Servidor.usuario);
                 }
-                System.out.println(Servidor.usuario);
-            } //            Thread.sleep( 5000 ); // dorme 5 segundos
-            //                        saida.writeBytes(Servidor.usuario.toString());
-            //                        
-            //			if (Users.usuario.containsKey(nomerecebe)) {
-            //                            
-            //                            String[] envioMen = new String[2];
-            //                            envioMen[0] = nome;
-            //                            envioMen[1] = mensagem;
-            //                            Users.usuario.get(nomerecebe).add(envioMen);
-            //                            
-            //                        } else {
-            //                            System.err.println("Chave não existe");
-            //                        }
-            //			
-            //            t.close();
-            //            System.out.println( "Servidor: conexao encerrada");
-            catch (Exception e) {
+            } catch (Exception e) {
                 try {
                     t.close();
                     break;

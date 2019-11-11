@@ -27,8 +27,9 @@ import java.util.logging.Logger;
 
     @Override
     public void run() {
+        
         try {
-            mutex.acquire();
+            
             Scanner meu = new Scanner(System.in);
 
             DataOutputStream saida = new DataOutputStream(s.getOutputStream());
@@ -37,6 +38,7 @@ import java.util.logging.Logger;
                 System.out.println("Usuario Autenticado \n");
 
                 while(true){
+                    mutex.acquire();
                     System.out.println("Enviar diz, RECEBI ESSA" + listaUsuario.keySet());
                     System.out.println("Digite o destinatario da mensagem");
                     String nomeRemetente = meu.nextLine();
@@ -49,10 +51,11 @@ import java.util.logging.Logger;
 
                     saida.writeUTF(nomeRemetente);
                     saida.writeUTF(mensagem);
+                    mutex.release();
+                    Thread.sleep(1);
                 }
             }
-            mutex.release();
-            Thread.sleep(1);
+            
 
         } catch (Exception e) {
             System.out.println("Ai brow mandou mal el" + e);

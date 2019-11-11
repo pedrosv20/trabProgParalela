@@ -39,51 +39,35 @@ public class ThreadReceber extends Thread {
     public void run() {
         while (true) {
             try {
-                 ObjectInputStream ois = new ObjectInputStream(s.getInputStream());
-                HashMap<String, ArrayList<String>> listaUsuario = (HashMap<String, ArrayList<String>>) ois.readObject();
                 mutex.acquire();
-                if (listaUsuario.containsKey(user)) {
+                System.out.println("bbbbbbbbbbbbbbbbb");
+                DataOutputStream saida = new DataOutputStream(s.getOutputStream());
+                ObjectInputStream ois = new ObjectInputStream(s.getInputStream());
+                saida.writeUTF("!"+user);
+                
+                
+                
+                System.out.println("asfasdfsadf");
+                System.out.println(ois.readObject());
+                ArrayList<String> cu = (ArrayList<String>) ois.readObject();
+                
+                System.out.println("sdgsadbssafbh");
+                System.out.println(cu);
+                saida.close();
+                if (!cu.isEmpty()) {
+
+                        System.out.println(cu);
+                        cu.clear();
+                        System.out.println("Vazia em ?" + cu.isEmpty());
                     
 
-                    
-                    
-                    if (!listaUsuario.get(user).isEmpty()) {
-                        System.out.println(listaUsuario.get(user).isEmpty());
-                        System.out.println(listaUsuario.get(user));
-                        listaUsuario.get(user).clear();
-                        System.out.println("Vazia em ?"+listaUsuario.get(user).isEmpty());
-                    }
-                    
-                    
                 }
                 mutex.release();
 
-            } //            String a = entrada.readUTF();
-            //            while (true) {
-            //                if (Users.usuario.containsKey(name)) {
-            //                    ArrayList<String[]> mensagens = Users.usuario.get(name);
-            //                    for (String[] mano : mensagens) {
-            //                        System.out.println(mano[0] + " enviou: ");
-            //                        System.out.println(mano[1]);
-            //                    }
-            //
-            //                } else {
-            //                    System.err.println("Chave não existe");
-            //                }
-            //
-            //                System.out.println(name);
-            //            }
-            //            Scanner scanner = new Scanner(System.in);
-            //            System.out.println("Insira seu nome: ");
-            //            saida.writeUTF(scanner.nextLine());
-            //            System.out.println("Insira para quem voce quer enviar: ");
-            //            saida.writeUTF(scanner.nextLine());
-            //            System.out.println("Insira sua mensagem: ");
-            //            saida.writeUTF(scanner.nextLine());
-            catch (Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
-            
+
         }
 
     }
