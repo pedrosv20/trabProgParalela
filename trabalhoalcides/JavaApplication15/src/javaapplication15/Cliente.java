@@ -32,7 +32,9 @@ public class Cliente {
             Socket s = new Socket("127.0.0.1", 5003);
             
             ThreadEnviar teste = new ThreadEnviar(s);
+            ThreadReceber recebe = new ThreadReceber(s);
             teste.start();
+            recebe.start();
           /*
             DataInputStream entrada = new DataInputStream(s.getInputStream());
 

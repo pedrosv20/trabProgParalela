@@ -12,7 +12,9 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.io.DataInputStream;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  *
@@ -21,19 +23,23 @@ import java.util.ArrayList;
 public class ThreadReceber extends Thread {
 
     private String name;
-
-    public ThreadReceber(String name) {
-        this.name = name;
+    private Socket s;
+    
+    public ThreadReceber(Socket s) {
+        this.s = s;
     }
+    
+
+    
 
     public void run() {
         try {
-
-            Socket s = new Socket("127.0.0.1", 5000);
             System.out.println("Cliente: conexao feita");
 
             
-            DataInputStream entrada = new DataInputStream(s.getInputStream());
+            ObjectInputStream ois = new ObjectInputStream(s.getInputStream());
+            HashMap<String, ArrayList<String[]>> listaUsuario = (HashMap<String, ArrayList<String[]>>) ois.readObject();
+            System.out.println("RECEBI ESSA" + listaUsuario);
             
 //            String a = entrada.readUTF();
             

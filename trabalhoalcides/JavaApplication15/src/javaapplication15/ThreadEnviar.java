@@ -33,11 +33,7 @@ public class ThreadEnviar extends Thread {
         
             try {
                 
-                ObjectInputStream ois = new ObjectInputStream(s.getInputStream());
                 
-                
-                HashMap<String, ArrayList<String[]>> listaUsuario = (HashMap<String, ArrayList<String[]>>) ois.readObject();
-                System.out.println("RECEBI ESSA" + listaUsuario);
                 Scanner meu = new Scanner(System.in);
                 System.out.println("Digite o remetente da mensagem");
                 String nomeRemetente = meu.nextLine();
