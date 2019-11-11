@@ -47,7 +47,8 @@ public class ThreadEnviar extends Thread {
                 DataOutputStream saida= new DataOutputStream( s.getOutputStream());
 
             
-                saida.writeChars(nomeRemetente);
+                saida.writeUTF(nomeRemetente);
+                
             } catch (Exception e) {
                 System.out.println("Ai brow mandou mal el" + e);
             }
