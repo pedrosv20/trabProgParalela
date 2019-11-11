@@ -13,6 +13,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class Trabalhador extends Thread {
@@ -22,12 +24,14 @@ public class Trabalhador extends Thread {
     public Trabalhador( Socket t ){
             this.t = t;
     }
+    @Override
     public void run(){
         try{
             System.out.println("AA");
             ObjectOutputStream oos = new ObjectOutputStream(t.getOutputStream());
+
             oos.flush();
-            Thread.sleep(1000);
+//                Thread.sleep(1000);
             oos.writeObject(Servidor.usuario);
             System.out.println("BB");
             DataInputStream entrada = new DataInputStream( t.getInputStream());
@@ -38,19 +42,19 @@ public class Trabalhador extends Thread {
 
             System.out.println("CC");
 
-            String remetente = entrada.readUTF();
+            String destinatario = entrada.readUTF();
             String mensagem = entrada.readUTF();
 
-            System.out.println("remetente");
-            if (Servidor.usuario.keySet().contains(remetente)) {
-                System.out.println("mamey");
-                Servidor.usuario.get(remetente).add(mensagem);
+            System.out.println("destinatario");
+            if (Servidor.usuario.keySet().contains(destinatario)) {
+                System.out.println("Trabalhador diz: Destinatario confirmado");
+                Servidor.usuario.get(destinatario).add(mensagem);
             }
             System.out.println(Servidor.usuario);
+        }
+//            Thread.sleep( 5000 ); // dorme 5 segundos
 
-            Thread.sleep( 5000 ); // dorme 5 segundos
-
-
+        
 //                        saida.writeBytes(Servidor.usuario.toString());
 //                        
 //			if (Users.usuario.containsKey(nomerecebe)) {
@@ -65,11 +69,17 @@ public class Trabalhador extends Thread {
 //                        }
 //			
 
-                t.close();
-                System.out.println( "Servidor: conexao encerrada");
-        }
+//            t.close();
+//            System.out.println( "Servidor: conexao encerrada");
+        
         catch( Exception e ){
-                System.out.println( e );
+            try {
+                t.close();
+            } catch (IOException ex) {
+                Logger.getLogger(Trabalhador.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            System.out.println( "Servidor: Conexao encerrada");
+            System.out.println( e );
         }	
     }
 }

@@ -24,21 +24,20 @@ public class ThreadReceber extends Thread {
 
     private String name;
     private Socket s;
+    private HashMap<String, ArrayList<String>> listaUsuario;
     
-    public ThreadReceber(Socket s) {
+    public ThreadReceber(Socket s, HashMap<String, ArrayList<String>> listaUsuario) {
         this.s = s;
+        this.listaUsuario = listaUsuario;
     }
     
 
     
 
+    @Override
     public void run() {
         try {
             System.out.println("Cliente: conexao feita");
-
-            
-            ObjectInputStream ois = new ObjectInputStream(s.getInputStream());
-            HashMap<String, ArrayList<String[]>> listaUsuario = (HashMap<String, ArrayList<String[]>>) ois.readObject();
             System.out.println("RECEBI ESSA" + listaUsuario);
             
 //            String a = entrada.readUTF();
