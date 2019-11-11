@@ -27,7 +27,7 @@ public class Servidor {
     
     public static void main(String[] args) throws FileNotFoundException, IOException {
         // TODO Auto-generated method stub
-        FileReader arq = new FileReader("/Users/pedrovargas/Desktop/Usuarios.txt");
+        FileReader arq = new FileReader("C:/Users/Bruno Thuma/Documents/GitHub/trabProgParalela/trabalhoalcides/Usuarios.txt");
         BufferedReader lerArq = new BufferedReader(arq);
 
         String linha = lerArq.readLine();

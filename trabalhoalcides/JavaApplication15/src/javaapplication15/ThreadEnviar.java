@@ -37,24 +37,27 @@ public class ThreadEnviar extends Thread {
                 Scanner meu = new Scanner(System.in);
                 
                 ObjectInputStream ois = new ObjectInputStream(s.getInputStream());
-                HashMap<String, ArrayList<String[]>> listaUsuario = (HashMap<String, ArrayList<String[]>>) ois.readObject();
+                HashMap<String, ArrayList<String>> listaUsuario = (HashMap<String, ArrayList<String>>) ois.readObject();
                 
                 System.out.println("Qual seu nome");
                 String user = meu.nextLine();
-                if (listaUsuario.containsKey(user)) {
-                    System.out.println("Usuario Autenticado \n");
-                    System.out.println("RECEBI ESSA" + listaUsuario.keySet());
-                    System.out.println("Digite o remetente da mensagem");
-                    String nomeRemetente = meu.nextLine();
-                    System.out.println("Digite sua mensagem");
-                    String mensagem = meu.nextLine();
+                while (true) {
+                    if (listaUsuario.containsKey(user)) {
+                        System.out.println("Usuario Autenticado \n");
+                        System.out.println("RECEBI ESSA" + listaUsuario.keySet());
+                        System.out.println("Digite o remetente da mensagem");
+                        String nomeRemetente = meu.nextLine();
+                        System.out.println("Digite sua mensagem");
+                        String mensagem = meu.nextLine();
 
-                    DataOutputStream saida= new DataOutputStream( s.getOutputStream());
+                        DataOutputStream saida= new DataOutputStream( s.getOutputStream());
 
-                    
-                    saida.writeUTF(nomeRemetente);
-                    saida.writeUTF(mensagem);
+
+                        saida.writeUTF(nomeRemetente);
+                        saida.writeUTF(mensagem);
+                    }
                 }
+                
                 
                 
             } catch (Exception e) {
