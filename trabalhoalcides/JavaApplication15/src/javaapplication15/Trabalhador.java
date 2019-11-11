@@ -17,43 +17,40 @@ import java.net.Socket;
 
 public class Trabalhador extends Thread {
 	
-	private Socket t;
-	
-	public Trabalhador( Socket t )
-	{
-		this.t = t;
-	}
-	public void run()
-	{
-		try
-		{
-                    System.out.println("AA");
-                    ObjectOutputStream oos = new ObjectOutputStream(t.getOutputStream());
-                    oos.flush();
-                    Thread.sleep(1000);
-                    oos.writeObject(Servidor.usuario);
-                    System.out.println("BB");
-                    DataInputStream entrada = new DataInputStream( t.getInputStream());
+    private Socket t;
+
+    public Trabalhador( Socket t ){
+            this.t = t;
+    }
+    public void run(){
+        try{
+            System.out.println("AA");
+            ObjectOutputStream oos = new ObjectOutputStream(t.getOutputStream());
+            oos.flush();
+            Thread.sleep(1000);
+            oos.writeObject(Servidor.usuario);
+            System.out.println("BB");
+            DataInputStream entrada = new DataInputStream( t.getInputStream());
 //                        System.out.println(entrada.readObject());
 
-                    DataOutputStream saida = new DataOutputStream( t.getOutputStream());
+            DataOutputStream saida = new DataOutputStream( t.getOutputStream());
 
 
-                    System.out.println("CC");
+            System.out.println("CC");
 
-                    String remetente = entrada.readUTF();
-                    String mensagem = entrada.readUTF();
+            String remetente = entrada.readUTF();
+            String mensagem = entrada.readUTF();
 
-                    System.out.println("remetente");
-                    if (Servidor.usuario.keySet().contains(remetente)) {
-                        System.out.println("mamey");
-                        Servidor.usuario.get(remetente).add(mensagem);
-                    }
-                    System.out.println(Servidor.usuario);
+            System.out.println("remetente");
+            if (Servidor.usuario.keySet().contains(remetente)) {
+                System.out.println("mamey");
+                Servidor.usuario.get(remetente).add(mensagem);
+            }
+            System.out.println(Servidor.usuario);
 
-                    Thread.sleep( 5000 ); // dorme 5 segundos
-                        
-                        
+            Thread.sleep( 5000 ); // dorme 5 segundos
+
+
 //                        saida.writeBytes(Servidor.usuario.toString());
 //                        
 //			if (Users.usuario.containsKey(nomerecebe)) {
@@ -67,15 +64,12 @@ public class Trabalhador extends Thread {
 //                            System.err.println("Chave não existe");
 //                        }
 //			
-			
-			t.close();
-			System.out.println( "Servidor: conexao encerrada");
-		}
-		catch( Exception e )
-		{
-			System.out.println( e );
-		}
-		
-	}
 
+                t.close();
+                System.out.println( "Servidor: conexao encerrada");
+        }
+        catch( Exception e ){
+                System.out.println( e );
+        }	
+    }
 }
