@@ -11,11 +11,7 @@ import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author augusto.coelho
- */
-public class ThreadEnviar extends Thread {
+ public class ThreadEnviar extends Thread {
 
     private String user;
     private Socket s;
@@ -31,34 +27,35 @@ public class ThreadEnviar extends Thread {
 
     @Override
     public void run() {
-        while (true) {
-            
-            try {
-                mutex.acquire();
-                Scanner meu = new Scanner(System.in);
+        try {
+            mutex.acquire();
+            Scanner meu = new Scanner(System.in);
 
-                DataOutputStream saida = new DataOutputStream(s.getOutputStream());
+            DataOutputStream saida = new DataOutputStream(s.getOutputStream());
 
-                if (listaUsuario.containsKey(user)) {
-                    System.out.println("Usuario Autenticado \n");
+            if (listaUsuario.containsKey(user)) {
+                System.out.println("Usuario Autenticado \n");
 
-                    
+                while(true){
                     System.out.println("Enviar diz, RECEBI ESSA" + listaUsuario.keySet());
                     System.out.println("Digite o destinatario da mensagem");
                     String nomeRemetente = meu.nextLine();
+                    while (! listaUsuario.containsKey(nomeRemetente)){
+                        System.out.println("Destinatario inexistente");
+                        nomeRemetente = meu.nextLine();
+                    }
                     System.out.println("Digite sua mensagem");
                     String mensagem = meu.nextLine();
 
                     saida.writeUTF(nomeRemetente);
                     saida.writeUTF(mensagem);
-
                 }
-                mutex.release();
-                Thread.sleep(1);
+            }
+            mutex.release();
+            Thread.sleep(1);
 
-            } catch (Exception e) {
-                System.out.println("Ai brow mandou mal el" + e);
-            } 
+        } catch (Exception e) {
+            System.out.println("Ai brow mandou mal el" + e);
         }
     }
 }
