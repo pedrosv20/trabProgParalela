@@ -43,8 +43,6 @@ public class Servidor {
         lerArq.close();
         arq.close();
         
-        System.out.println(Servidor.usuario);
-        
         try {
             ServerSocket ss = new ServerSocket(4040);
 

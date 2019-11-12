@@ -34,7 +34,7 @@ public class Cliente {
        
         try {
             
-            Socket s = new Socket("127.0.0.1", 4040);
+            Socket s = new Socket("10.150.99.127", 4040);
             
             DataInputStream ois = new DataInputStream(s.getInputStream());
             ArrayList<String> users = new ArrayList();
