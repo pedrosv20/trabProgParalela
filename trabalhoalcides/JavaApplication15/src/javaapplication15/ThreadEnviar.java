@@ -15,11 +15,11 @@ import java.util.logging.Logger;
 
     private String user;
     private Socket s;
-    private HashMap<String, ArrayList<String>> listaUsuario;
+    private ArrayList<String> listaUsuario;
     private Semaphore mutexEnviar;
     private Semaphore mutexReceber;
 
-    public ThreadEnviar(String user, Socket s, HashMap<String, ArrayList<String>> listaUsuario, Semaphore mutexEnviar, Semaphore mutexReceber) {
+    public ThreadEnviar(String user, Socket s, ArrayList<String> listaUsuario, Semaphore mutexEnviar, Semaphore mutexReceber) {
         this.mutexEnviar = mutexEnviar;
         this.mutexReceber = mutexReceber;
         this.user = user;
@@ -36,15 +36,15 @@ import java.util.logging.Logger;
 
             DataOutputStream saida = new DataOutputStream(s.getOutputStream());
 
-            if (listaUsuario.containsKey(user)) {
+            if (listaUsuario.contains(user)) {
                 System.out.println("Usuario Autenticado \n");
 
                 while(true){
                     mutexEnviar.acquire();
-                    System.out.println("Enviar diz, RECEBI ESSA" + listaUsuario.keySet());
+                    System.out.println("Enviar diz, RECEBI ESSA" + listaUsuario);
                     System.out.println("Digite o destinatario da mensagem");
                     String nomeRemetente = meu.nextLine();
-                    while (! listaUsuario.containsKey(nomeRemetente)){
+                    while (!listaUsuario.contains(nomeRemetente)){
                         System.out.println("Destinatario inexistente");
                         nomeRemetente = meu.nextLine();
                     }
@@ -57,13 +57,14 @@ import java.util.logging.Logger;
                     mutexReceber.release();
                     
                     
-                }
-            }
-            
-
-        } catch (Exception e) {
-            System.out.println("Ai brow mandou mal el" + e);
-            e.printStackTrace();
-        }
+                }         
+    
     }
-}
+}       catch (InterruptedException ex) {
+            Logger.getLogger(ThreadEnviar.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(ThreadEnviar.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    
+    }
+ }
