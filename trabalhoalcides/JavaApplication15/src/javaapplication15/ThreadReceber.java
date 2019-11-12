@@ -45,6 +45,7 @@ public class ThreadReceber extends Thread {
             while (true) {
                 
                 mutexReceber.acquire();
+                System.out.println("entrou reeber");
                 
                 System.out.println("bbbbbbbbbbbbbbbbb");
 

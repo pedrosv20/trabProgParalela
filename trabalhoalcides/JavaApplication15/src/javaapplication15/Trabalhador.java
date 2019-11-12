@@ -45,7 +45,7 @@ public class Trabalhador extends Thread {
                     }
                     teste = false;
                 }
-
+//
                 System.out.println("BB");
                 DataInputStream entrada = new DataInputStream(t.getInputStream());
 //                        System.out.println(entrada.readObject());
