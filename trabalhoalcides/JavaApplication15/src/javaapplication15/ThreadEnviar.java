@@ -40,7 +40,7 @@ import java.util.logging.Logger;
                 System.out.println("Usuario Autenticado \n");
 
                 while(true){
-                    mutexEnviar.acquire();
+                    
                     System.out.println("Enviar diz, RECEBI ESSA" + listaUsuario);
                     System.out.println("Digite o destinatario da mensagem");
                     String nomeRemetente = meu.nextLine();
@@ -50,13 +50,12 @@ import java.util.logging.Logger;
                     }
                     System.out.println("Digite sua mensagem");
                     String mensagem = meu.nextLine();
-
+                    mutexEnviar.acquire();
                     saida.writeUTF(nomeRemetente);
                     saida.writeUTF(mensagem);
                     
                     mutexReceber.release();
-                    
-                    
+
                 }         
     
     }

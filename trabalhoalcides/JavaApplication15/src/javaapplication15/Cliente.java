@@ -45,11 +45,7 @@ public class Cliente {
                a = ois.readUTF();
                users.add(a);
             }
-//            for(int i = 0; i  < 10; i ++) {
-//                
-//                users.add(ois.readUTF());
-//            }
-            
+
             System.out.println(users);
             
             System.out.println("Qual seu nome");
@@ -70,10 +66,6 @@ public class Cliente {
         } catch (IOException e) {
             e.printStackTrace();
         }
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        } catch (ClassNotFoundException ex) {
-//            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+
     }
 }

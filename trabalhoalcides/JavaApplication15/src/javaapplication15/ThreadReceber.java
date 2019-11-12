@@ -45,35 +45,19 @@ public class ThreadReceber extends Thread {
             while (true) {
                 
                 mutexReceber.acquire();
-                
-                System.out.println("bbbbbbbbbbbbbbbbb");
-
                 saida.writeUTF("!" + user);
-
-                System.out.println("asfasdfsadf");
+                mutexEnviar.release();
                 String mensagem;
                 ArrayList<String> mensagens = new ArrayList<String>();
+                Thread.sleep(1000);
                 while(ois.available()!=0){
                     mensagem = ois.readUTF();
                     mensagens.add(mensagem);
                     
                 }
                 System.out.println(mensagens);
-               
+
                 
-
-                System.out.println("sdgsadbssafbh");
-                
-
-                if (!mensagens.isEmpty()) {
-
-                    System.out.println(mensagens);
-                    
-                    System.out.println("Vazia em ?" + mensagens.isEmpty());
-
-                }
-
-                mutexEnviar.release();
             }
         } catch (Exception e) {
             e.printStackTrace();

@@ -58,7 +58,6 @@ public class Servidor {
 
             }
 
-            //ss.close();
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

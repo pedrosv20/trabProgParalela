@@ -36,8 +36,6 @@ public class Trabalhador extends Thread {
 
                 if (teste) {
 
-                    
-//                Thread.sleep(1000);
                     for (String key : Servidor.usuario.keySet()) {
                         //Capturamos o valor a partir da chave
                         saida.flush();
@@ -53,7 +51,7 @@ public class Trabalhador extends Thread {
                 System.out.println("CC");
 
                 String destinatario = entrada.readUTF();
-                System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" + destinatario);
+
                 if (destinatario.charAt(0) == '!') {//Caso a thread receber mande algo 
                     String nome = destinatario.substring(1);
 
