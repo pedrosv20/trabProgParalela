@@ -26,8 +26,9 @@ public class Trabalhador extends Thread {
 
     @Override
     public void run() {
-        while (true) {
-            try {
+
+        try {
+            while (t.isConnected() && !t.isClosed()) {
                 System.out.println("AA");
                 ObjectOutputStream oos = new ObjectOutputStream(t.getOutputStream());
 
@@ -43,12 +44,14 @@ public class Trabalhador extends Thread {
                 System.out.println("CC");
 
                 String destinatario = entrada.readUTF();
-                System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"+destinatario);
+                System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" + destinatario);
                 if (destinatario.charAt(0) == '!') {
                     String nome = destinatario.substring(1);
                     oos.flush();
                     System.out.println(Servidor.usuario.get(nome).getClass().getName());
                     oos.writeObject(Servidor.usuario.get(nome));
+                    Servidor.usuario.get(nome).clear();
+                    System.out.println(Servidor.usuario);
 
                 } else {
                     String mensagem = entrada.readUTF();
@@ -60,16 +63,14 @@ public class Trabalhador extends Thread {
                     }
                     System.out.println(Servidor.usuario);
                 }
-            } catch (Exception e) {
-                try {
-                    t.close();
-                    break;
-                } catch (IOException ex) {
-                    Logger.getLogger(Trabalhador.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                System.out.println("Servidor: Conexao encerrada");
-                System.out.println(e);
             }
+            t.close();
+            System.out.println("acabou");
+        } catch (Exception e) {
+
+            System.out.println("Servidor: Conexao encerrada");
+            e.printStackTrace();
         }
     }
 }
+

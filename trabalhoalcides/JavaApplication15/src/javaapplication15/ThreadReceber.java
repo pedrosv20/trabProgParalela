@@ -39,6 +39,7 @@ public class ThreadReceber extends Thread {
     public void run() {
         while (true) {
             try {
+                Thread.sleep(2);
                 mutex.acquire();
                 System.out.println("bbbbbbbbbbbbbbbbb");
                 DataOutputStream saida = new DataOutputStream(s.getOutputStream());
@@ -65,7 +66,7 @@ public class ThreadReceber extends Thread {
                 mutex.release();
 
             } catch (Exception e) {
-                e.printStackTrace();
+                System.out.println("Infelizmente a sessao fechou, rode denovo");
             }
 
         }

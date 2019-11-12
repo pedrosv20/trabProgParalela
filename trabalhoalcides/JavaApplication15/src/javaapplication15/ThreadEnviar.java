@@ -52,7 +52,7 @@ import java.util.logging.Logger;
                     saida.writeUTF(nomeRemetente);
                     saida.writeUTF(mensagem);
                     mutex.release();
-                    Thread.sleep(1);
+                    Thread.sleep(10);
                 }
             }
             
