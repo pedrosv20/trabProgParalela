@@ -21,7 +21,6 @@ public class Trabalhador extends Thread {
 
     private Socket t;
     boolean teste = true;
-    
 
     public Trabalhador(Socket t) {
         this.t = t;
@@ -31,16 +30,19 @@ public class Trabalhador extends Thread {
     public void run() {
 
         try {
-            while (t.isConnected() && !t.isClosed()) {
+            while (true) {
                 System.out.println("AA");
-                ObjectOutputStream oos = new ObjectOutputStream(t.getOutputStream());
-                
-                if (teste) {
-                    
+                DataOutputStream saida = new DataOutputStream(t.getOutputStream());
 
-                    oos.flush();
+                if (teste) {
+
+                    
 //                Thread.sleep(1000);
-                    oos.writeObject(Servidor.usuario);
+                    for (String key : Servidor.usuario.keySet()) {
+                        //Capturamos o valor a partir da chave
+                        saida.flush();
+                        saida.writeUTF(key);
+                    }
                     teste = false;
                 }
 
@@ -48,20 +50,22 @@ public class Trabalhador extends Thread {
                 DataInputStream entrada = new DataInputStream(t.getInputStream());
 //                        System.out.println(entrada.readObject());
 
-                DataOutputStream saida = new DataOutputStream(t.getOutputStream());
-
                 System.out.println("CC");
-                
+
                 String destinatario = entrada.readUTF();
                 System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" + destinatario);
-                if (destinatario.charAt(0) == '!') {
+                if (destinatario.charAt(0) == '!') {//Caso a thread receber mande algo 
                     String nome = destinatario.substring(1);
-                    oos.flush();
+
                     System.out.println(Servidor.usuario.get(nome).getClass().getName());
                     ArrayList<String> temp = Servidor.usuario.get(nome);
+
+                    System.out.println("Temp: " + temp);
+                    for(int i = 0 ; i< temp.size(); i++){
+                        saida.flush();
+                        saida.writeUTF(temp.get(i));
+                    }
                     
-                    System.out.println("Temp: "+ temp);
-                    oos.writeUTF(temp.get(0));
                     Servidor.usuario.get(nome).clear();
                     System.out.println(Servidor.usuario);
 
@@ -76,8 +80,8 @@ public class Trabalhador extends Thread {
                     System.out.println(Servidor.usuario);
                 }
             }
-            t.close();
-            System.out.println("acabou");
+            //t.close();
+            //System.out.println("acabou");
         } catch (Exception e) {
 
             System.out.println("Servidor: Conexao encerrada");

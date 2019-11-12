@@ -41,7 +41,7 @@ public class ThreadReceber extends Thread {
     public void run() {
         try {
             DataOutputStream saida = new DataOutputStream(s.getOutputStream());
-            ObjectInputStream ois = new ObjectInputStream(s.getInputStream());
+            DataInputStream ois = new DataInputStream(s.getInputStream());
             while (true) {
                 
                 mutexReceber.acquire();
@@ -51,20 +51,25 @@ public class ThreadReceber extends Thread {
                 saida.writeUTF("!" + user);
 
                 System.out.println("asfasdfsadf");
-                Object x = ois.readObject();
-                
-                System.out.println("Obejto: " + x.toString());
-                ArrayList<String> cu = (ArrayList<String>) x;
+                String mensagem;
+                ArrayList<String> mensagens = new ArrayList<String>();
+                while(ois.available()!=0){
+                    mensagem = ois.readUTF();
+                    mensagens.add(mensagem);
+                    
+                }
+                System.out.println(mensagens);
+               
                 
 
                 System.out.println("sdgsadbssafbh");
-                System.out.println(cu);
+                
 
-                if (!cu.isEmpty()) {
+                if (!mensagens.isEmpty()) {
 
-                    System.out.println(cu);
-                    cu.clear();
-                    System.out.println("Vazia em ?" + cu.isEmpty());
+                    System.out.println(mensagens);
+                    
+                    System.out.println("Vazia em ?" + mensagens.isEmpty());
 
                 }
 
