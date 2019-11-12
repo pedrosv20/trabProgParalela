@@ -43,7 +43,6 @@ public class ThreadReceber extends Thread {
             DataOutputStream saida = new DataOutputStream(s.getOutputStream());
             DataInputStream ois = new DataInputStream(s.getInputStream());
             while (true) {
-                
                 mutexReceber.acquire();
                 saida.writeUTF("!" + user);
                 mutexEnviar.release();

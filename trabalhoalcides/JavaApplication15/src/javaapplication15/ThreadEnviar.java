@@ -46,6 +46,7 @@ import java.util.logging.Logger;
                     String nomeRemetente = meu.nextLine();
                     while (!listaUsuario.contains(nomeRemetente)){
                         System.out.println("Destinatario inexistente");
+                        System.out.println("Digite o usuario novamente: ");
                         nomeRemetente = meu.nextLine();
                     }
                     System.out.println("Digite sua mensagem");

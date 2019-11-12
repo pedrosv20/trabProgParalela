@@ -34,8 +34,8 @@ public class Cliente {
        
         try {
             
-            Socket s = new Socket("10.150.99.127", 4040);
-            
+           Socket s = new Socket("127.0.0.1", 4040);
+          
             DataInputStream ois = new DataInputStream(s.getInputStream());
             ArrayList<String> users = new ArrayList();
             String a =  "";
@@ -54,12 +54,12 @@ public class Cliente {
             Semaphore mutexEnviar = new Semaphore(1);
             Semaphore mutexReceber = new Semaphore(0);
             ThreadEnviar envia = new ThreadEnviar(user, s, users, mutexEnviar, mutexReceber);
-            System.out.println("aaaaaaaaaaaaaa");
+
             ThreadReceber recebe = new ThreadReceber(user, s, mutexEnviar, mutexReceber);
             envia.start();
             recebe.start();
           
-            System.out.println("Cliente: conexao encerrada");
+
             
         } catch (UnknownHostException e) {
             e.printStackTrace();
