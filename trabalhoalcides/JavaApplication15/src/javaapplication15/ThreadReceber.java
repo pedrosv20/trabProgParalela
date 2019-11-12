@@ -26,10 +26,12 @@ public class ThreadReceber extends Thread {
     private String user;
     private Socket s;
     //private HashMap<String, ArrayList<String>> listaUsuario;
-    private Semaphore mutex;
+    private Semaphore mutexEnviar;
+    private Semaphore mutexReceber;
 
-    public ThreadReceber(String user, Socket s, Semaphore mutex) {
-        this.mutex = mutex;
+    public ThreadReceber(String user, Socket s, Semaphore mutexEnviar, Semaphore mutexReceber) {
+        this.mutexEnviar = mutexEnviar;
+        this.mutexReceber = mutexReceber;
         this.user = user;
         this.s = s;
         //this.listaUsuario = listaUsuario;
@@ -37,38 +39,40 @@ public class ThreadReceber extends Thread {
 
     @Override
     public void run() {
-        while (true) {
-            try {
-                Thread.sleep(2);
-                mutex.acquire();
+        try {
+            DataOutputStream saida = new DataOutputStream(s.getOutputStream());
+            ObjectInputStream ois = new ObjectInputStream(s.getInputStream());
+            while (true) {
+                
+                mutexReceber.acquire();
+                
                 System.out.println("bbbbbbbbbbbbbbbbb");
-                DataOutputStream saida = new DataOutputStream(s.getOutputStream());
-                ObjectInputStream ois = new ObjectInputStream(s.getInputStream());
-                saida.writeUTF("!"+user);
-                
-                
-                
+
+                saida.writeUTF("!" + user);
+
                 System.out.println("asfasdfsadf");
-                System.out.println(ois.readObject());
-                ArrayList<String> cu = (ArrayList<String>) ois.readObject();
+                Object x = ois.readObject();
                 
+                System.out.println("Obejto: " + x.toString());
+                ArrayList<String> cu = (ArrayList<String>) x;
+                
+
                 System.out.println("sdgsadbssafbh");
                 System.out.println(cu);
-                saida.close();
+
                 if (!cu.isEmpty()) {
 
-                        System.out.println(cu);
-                        cu.clear();
-                        System.out.println("Vazia em ?" + cu.isEmpty());
-                    
+                    System.out.println(cu);
+                    cu.clear();
+                    System.out.println("Vazia em ?" + cu.isEmpty());
 
                 }
-                mutex.release();
 
-            } catch (Exception e) {
-                System.out.println("Infelizmente a sessao fechou, rode denovo");
+                mutexEnviar.release();
             }
-
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Infelizmente a sessao fechou, rode denovo");
         }
 
     }

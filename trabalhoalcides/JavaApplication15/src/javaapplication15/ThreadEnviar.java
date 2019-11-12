@@ -16,10 +16,12 @@ import java.util.logging.Logger;
     private String user;
     private Socket s;
     private HashMap<String, ArrayList<String>> listaUsuario;
-    private Semaphore mutex;
+    private Semaphore mutexEnviar;
+    private Semaphore mutexReceber;
 
-    public ThreadEnviar(String user, Socket s, HashMap<String, ArrayList<String>> listaUsuario, Semaphore mutex) {
-        this.mutex = mutex;
+    public ThreadEnviar(String user, Socket s, HashMap<String, ArrayList<String>> listaUsuario, Semaphore mutexEnviar, Semaphore mutexReceber) {
+        this.mutexEnviar = mutexEnviar;
+        this.mutexReceber = mutexReceber;
         this.user = user;
         this.s = s;
         this.listaUsuario = listaUsuario;
@@ -38,7 +40,7 @@ import java.util.logging.Logger;
                 System.out.println("Usuario Autenticado \n");
 
                 while(true){
-                    mutex.acquire();
+                    mutexEnviar.acquire();
                     System.out.println("Enviar diz, RECEBI ESSA" + listaUsuario.keySet());
                     System.out.println("Digite o destinatario da mensagem");
                     String nomeRemetente = meu.nextLine();
@@ -51,14 +53,17 @@ import java.util.logging.Logger;
 
                     saida.writeUTF(nomeRemetente);
                     saida.writeUTF(mensagem);
-                    mutex.release();
-                    Thread.sleep(10);
+                    
+                    mutexReceber.release();
+                    
+                    
                 }
             }
             
 
         } catch (Exception e) {
             System.out.println("Ai brow mandou mal el" + e);
+            e.printStackTrace();
         }
     }
 }

@@ -13,12 +13,15 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Trabalhador extends Thread {
 
     private Socket t;
+    boolean teste = true;
+    
 
     public Trabalhador(Socket t) {
         this.t = t;
@@ -31,10 +34,16 @@ public class Trabalhador extends Thread {
             while (t.isConnected() && !t.isClosed()) {
                 System.out.println("AA");
                 ObjectOutputStream oos = new ObjectOutputStream(t.getOutputStream());
+                
+                if (teste) {
+                    
 
-                oos.flush();
+                    oos.flush();
 //                Thread.sleep(1000);
-                oos.writeObject(Servidor.usuario);
+                    oos.writeObject(Servidor.usuario);
+                    teste = false;
+                }
+
                 System.out.println("BB");
                 DataInputStream entrada = new DataInputStream(t.getInputStream());
 //                        System.out.println(entrada.readObject());
@@ -42,14 +51,17 @@ public class Trabalhador extends Thread {
                 DataOutputStream saida = new DataOutputStream(t.getOutputStream());
 
                 System.out.println("CC");
-
+                
                 String destinatario = entrada.readUTF();
                 System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" + destinatario);
                 if (destinatario.charAt(0) == '!') {
                     String nome = destinatario.substring(1);
                     oos.flush();
                     System.out.println(Servidor.usuario.get(nome).getClass().getName());
-                    oos.writeObject(Servidor.usuario.get(nome));
+                    ArrayList<String> temp = Servidor.usuario.get(nome);
+                    
+                    System.out.println("Temp: "+ temp);
+                    oos.writeUTF(temp.get(0));
                     Servidor.usuario.get(nome).clear();
                     System.out.println(Servidor.usuario);
 
@@ -73,4 +85,3 @@ public class Trabalhador extends Thread {
         }
     }
 }
-

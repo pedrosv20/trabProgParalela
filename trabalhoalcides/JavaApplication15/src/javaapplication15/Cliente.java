@@ -33,17 +33,18 @@ public class Cliente {
        
         try {
             
-            Socket s = new Socket("127.0.0.1", 5003);
+            Socket s = new Socket("127.0.0.1", 4040);
             
             ObjectInputStream ois = new ObjectInputStream(s.getInputStream());
             HashMap<String, ArrayList<String>> listaUsuario = (HashMap<String, ArrayList<String>>) ois.readObject();
             System.out.println("Qual seu nome");
             Scanner meu = new Scanner(System.in);
             String user = meu.nextLine();
-            Semaphore mutex = new Semaphore(1);
-            ThreadEnviar envia = new ThreadEnviar(user, s, listaUsuario, mutex);
+            Semaphore mutexEnviar = new Semaphore(1);
+            Semaphore mutexReceber = new Semaphore(0);
+            ThreadEnviar envia = new ThreadEnviar(user, s, listaUsuario, mutexEnviar, mutexReceber);
             System.out.println("aaaaaaaaaaaaaa");
-            ThreadReceber recebe = new ThreadReceber(user, s, mutex);
+            ThreadReceber recebe = new ThreadReceber(user, s, mutexEnviar, mutexReceber);
             envia.start();
             recebe.start();
           /*

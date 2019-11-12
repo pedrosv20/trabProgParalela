@@ -46,7 +46,7 @@ public class Servidor {
         System.out.println(Servidor.usuario);
         
         try {
-            ServerSocket ss = new ServerSocket(5003);
+            ServerSocket ss = new ServerSocket(4040);
 
             while (true) {
                 System.out.println("Servidor aguardando um cliente ...");
